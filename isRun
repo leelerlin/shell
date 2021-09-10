@@ -1,8 +1,14 @@
 #!/bin/bash
-NAME=php #这里输入进程的名称
+
+# 判断某程序是否运行
+# eg: isRun php-fpm
+
+NAME=${1}
 NUM=$(ps -ef |grep $NAME |grep -vc grep)
 if [ $NUM -gt 0 ]; then
-    echo "$NAME running."
+    echo "$NAME is running."
 else
     echo "$NAME is not running!"
 fi
+
+ps -ef |grep $NAME
