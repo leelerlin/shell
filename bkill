@@ -1,0 +1,36 @@
+ #!/bin/bash
+
+# kill 指定进程名称的进程
+# eg : kill php-fmp
+
+name=${1}
+echo $name
+
+
+# 输出匹配进程
+echo '匹配进程:'
+match_process='ps -ef | grep $name | grep -v grep'
+eval $match_process
+
+# 查找所用进程PID
+echo '匹配PID:'
+match_pid="ps -ef | grep $name | grep -v grep | awk '{print \$2}'"
+echo $match_pid
+eval $match_pid
+
+
+# 确认删除吗？
+kill_cmd="ps -ef | grep $name | grep -v grep |awk '{print \$2}' | xargs kill -9"
+
+read -r -p "确定要kill以上PID吗?[y/n]" input
+case $input in
+	[yY] )
+ 		eval $kill_cmd
+ 		echo "kill success~"
+ 		echo $kill_cmd
+		;;
+	*)
+		echo "cancal kill ..."
+		exit 1
+		;;
+esac
